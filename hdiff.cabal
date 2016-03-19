@@ -5,26 +5,25 @@ description:         Please see README.md
 homepage:            http://github.com/githubuser/hdiff#readme
 license:             BSD3
 license-file:        LICENSE
-author:              Author name here
-maintainer:          example@example.com
-copyright:           2016 Author Here
+author:              Miroslav Karpis
+maintainer:          miroslav.karpis@gmail.com
+copyright:           2016 Miroslav Karpis
 category:            Web
 build-type:          Simple
 -- extra-source-files:
 cabal-version:       >=1.10
 
 library
-  hs-source-dirs:      src
-  exposed-modules:     Lib
-  build-depends:       base >= 4.7 && < 5
-  default-language:    Haskell2010
+  -- hs-source-dirs:      src
+  -- exposed-modules:     Lib
+  -- build-depends:       base >= 4.7 && < 5
+  -- default-language:    Haskell2010
 
-executable hdiff-exe
-  hs-source-dirs:      app
+executable hdiff
+  hs-source-dirs:      src
   main-is:             Main.hs
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   build-depends:       base
-                     , hdiff
   default-language:    Haskell2010
 
 test-suite hdiff-test
@@ -38,4 +37,4 @@ test-suite hdiff-test
 
 source-repository head
   type:     git
-  location: https://github.com/githubuser/hdiff
+  location: https://github.com/mkarpis/hdiff

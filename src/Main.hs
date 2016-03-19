@@ -1,6 +1,6 @@
 module Main where
 
-import Lib
+import HDiff
 
 main :: IO ()
 main = someFunc
