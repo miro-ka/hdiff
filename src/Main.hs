@@ -1,6 +1,19 @@
+{-# LANGUAGE OverloadedStrings #-}
+
+
 module Main where
 
-import HDiff
+import qualified HDiff as HDiff (run) 
+
+import System.Environment (getArgs)
+
+
+
+
 
 main :: IO ()
-main = someFunc
+main = do
+   args <- getArgs
+   --putStrLn $ show args
+   res <- HDiff.run args
+   putStrLn res
