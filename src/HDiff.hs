@@ -7,8 +7,7 @@ module HDiff(
 
 --import qualified Data.Text as T
 import System.Directory
-import System.IO (IOMode( ReadMode ), openFile, hClose, hGetLine,
-   Handle(..))
+import System.IO (IOMode( ReadMode ), openFile, hClose, hGetLine, Handle(..))
 import Data.List (isInfixOf)
 import qualified Data.Text as T
 import qualified Data.Text.IO as TIO
@@ -29,8 +28,6 @@ data InputParams = InputParams{
 
 
 
-findInContents :: T.Text -> [T.Text] -> IO Bool
-findInContents string contents = undefined
 
 
 -- |Returns True if one of given strings are contained in given string
@@ -39,8 +36,8 @@ contains elements search_elem
    | trueListCount == 0 = False
    | otherwise = True
    where
-      stripped = [T.strip elem | elem <- elements]
-      isInStringList =  [T.isInfixOf elem search_elem | elem <- elements, (T.length elem) > 0]
+      stripped = [T.stripStart (T.strip elem) | elem <- elements]
+      isInStringList =  [T.isInfixOf elem search_elem | elem <- stripped, (T.length elem) > 0]
       onlyTrueList = [elem | elem <- isInStringList, elem == True]
       trueListCount = length onlyTrueList
 
@@ -49,7 +46,8 @@ contains elements search_elem
 contains' :: [T.Text] -> T.Text -> IO (Bool)
 contains' elements search_elem = do
    --putStrLn $ show elements
-   let isInStringList = [T.isInfixOf elem search_elem | elem <- elements, (T.length elem) > 0]
+   let stripped = [T.stripStart (T.strip elem) | elem <- elements]
+   let isInStringList = [T.isInfixOf elem search_elem | elem <- stripped, (T.length elem) > 0]
    putStrLn $ show isInStringList
    let onlyTrueList = [elem | elem <- isInStringList, elem == True]
        trueListCount = length onlyTrueList
@@ -81,15 +79,6 @@ missingAction x elemStartStrings f2_lines = do
       when (isInFile2 == False) (putStrLn $ "Missing: " ++ T.unpack x)
    else return ()
 
-   -- when (isInFile2 == False) (putStrLn $ "Missing: " ++ x)
-   --when isStartingElement (putStrLn x)
-   --let isInFile2 = contains f2_lines x
-   --when (isInFile2 == False) (putStrLn $ "Missing: " ++ x)
-   {-- if (isInFile2) then
-      putStrLn "-----Found"
-   else
-      putStrLn $ "-----NOT found" ++ x
-   --}
 
 
 findMissing :: [T.Text] -> [T.Text] -> [T.Text] -> IO()
@@ -160,6 +149,7 @@ processInputArgs args = do
             False -> return $ Left (InputError filesNotPresent)
             True -> do
             configData <- parseConfig (args !! 2)
+            putStrLn $ show configData
             let inputParams = InputParams (args !! 0) (args !! 1) configData
             return $ Right inputParams
                
